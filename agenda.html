@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda das Girls - Agendamento para Cabelereira</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --rosa-claro: #ffe6f2;
+            --rosa-medio: #ffb6d9;
+            --rosa-escuro: #ff80bf;
+            --rosa-profundo: #ff4da6;
+            --roxo-suave: #e6ccff;
+            --texto-escuro: #660033;
+            --branco: #fff;
+            --sombra: rgba(255, 77, 166, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--rosa-claro);
+            color: var(--texto-escuro);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Cabeçalho */
+        header {
+            background: linear-gradient(135deg, var(--rosa-profundo), var(--roxo-suave));
+            color: white;
+            padding: 25px 0;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 5px 15px var(--sombra);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            font-size: 2.8rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        /* Navegação entre áreas */
+        .area-selector {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+        
+        .area-btn {
+            background: var(--branco);
+            border: 2px solid var(--rosa-profundo);
+            color: var(--rosa-profundo);
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .area-btn:hover {
+            background: var(--rosa-profundo);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--sombra);
+        }
+        
+        .area-btn.active {
+            background: var(--rosa-profundo);
+            color: white;
+        }
+        
+        /* Área de Conteúdo */
+        .content-area {
+            display: none;
+            background: var(--branco);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px var(--sombra);
+            margin-bottom: 30px;
+            min-height: 500px;
+        }
+        
+        .content-area.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: var(--rosa-profundo);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--rosa-medio);
+            font-size: 1.8rem;
+        }
+        
+        /* Formulários */
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--texto-escuro);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--rosa-medio);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--rosa-profundo);
+            box-shadow: 0 0 0 3px var(--sombra);
+        }
+        
+        .btn {
+            background: var(--rosa-profundo);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn:hover {
+            background: var(--texto-escuro);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px var(--sombra);
+        }
+        
+        .btn i {
+            font-size: 1.1rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        /* Tabela de agendamentos */
+        .agendamentos-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .agendamentos-table th {
+            background: var(--rosa-medio);
+            color: var(--texto-escuro);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .agendamentos-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--rosa-claro);
+        }
+        
+        .agendamentos-table tr:hover {
+            background-color: var(--rosa-claro);
+        }
+        
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status.pendente {
+            background-color: #fff4cc;
+            color: #e6b800;
+        }
+        
+        .status.confirmado {
+            background-color: #d9f2d9;
+            color: #2d862d;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .confirm-btn {
+            background-color: #d9f2d9;
+            color: #2d862d;
+        }
+        
+        .confirm-btn:hover {
+            background-color: #c2e6c2;
+        }
+        
+        /* Rodapé */
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--texto-escuro);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--rosa-medio);
+            margin-top: 40px;
+        }
+        
+        /* Mensagens de sistema */
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .message.success {
+            background-color: #d9f2d9;
+            color: #2d862d;
+            border: 1px solid #2d862d;
+            display: block;
+        }
+        
+        .message.error {
+            background-color: #ffd6cc;
+            color: #cc3300;
+            border: 1px solid #cc3300;
+            display: block;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .logo h1 {
+                font-size: 2rem;
+            }
+            
+            .area-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .area-btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .agendamentos-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-spa"></i>
+                <h1>Agenda das Girls</h1>
+            </div>
+            <p class="tagline">Beleza e cuidado com agendamento fácil e prático</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="area-selector">
+            <button class="area-btn active" id="btn-cliente">
+                <i class="fas fa-user"></i> Área do Cliente
+            </button>
+            <button class="area-btn" id="btn-cabelereira">
+                <i class="fas fa-scissors"></i> Área da Cabelereira
+            </button>
+        </div>
+        
+        <!-- Mensagens do sistema -->
+        <div class="message" id="system-message"></div>
+        
+        <!-- Área do Cliente -->
+        <div id="area-cliente" class="content-area active">
+            <div id="login-section">
+                <h2><i class="fas fa-sign-in-alt"></i> Login do Cliente</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="login-email">E-mail</label>
+                        <input type="email" id="login-email" placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-senha">Senha</label>
+                        <input type="password" id="login-senha" placeholder="Digite sua senha">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn" id="btn-login">
+                            <i class="fas fa-sign-in-alt"></i> Entrar
+                        </button>
+                        <button class="btn" id="btn-cadastrar-view">
+                            <i class="fas fa-user-plus"></i> Criar Cadastro
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cadastro-section" style="display: none;">
+                <h2><i class="fas fa-user-plus"></i> Cadastro de Cliente</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="cadastro-nome">Nome Completo</label>
+                        <input type="text" id="cadastro-nome" placeholder="Seu nome completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="cadastro-cpf">CPF</label>
+                        <input type="text" id="cadastro-cpf" placeholder="000.000.000-00">
+                    </div>
+                    <div class="form-group">
+                        <label for="cadastro-telefone">Telefone</label>
+                        <input type="text" id="cadastro-telefone" placeholder="(11) 99999-9999">
+                    </div>
+                    <div class="form-group">
+                        <label for="cadastro-email">E-mail</label>
+                        <input type="email" id="cadastro-email" placeholder="seu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="cadastro-senha">Senha</label>
+                        <input type="password" id="cadastro-senha" placeholder="Crie uma senha">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn" id="btn-voltar-login">
+                            <i class="fas fa-arrow-left"></i> Voltar para Login
+                        </button>
+                        <button class="btn" id="btn-confirmar-cadastro">
+                            <i class="fas fa-check"></i> Finalizar Cadastro
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="agendamento-section" style="display: none;">
+                <h2><i class="fas fa-calendar-plus"></i> Agendar Horário</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="agendamento-data">Data</label>
+                        <input type="date" id="agendamento-data">
+                    </div>
+                    <div class="form-group">
+                        <label for="agendamento-horario">Horário</label>
+                        <select id="agendamento-horario">
+                            <option value="">Selecione um horário</option>
+                            <option value="08:00">08:00</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="13:00">13:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="agendamento-servico">Serviço</label>
+                        <select id="agendamento-servico">
+                            <option value="">Selecione um serviço</option>
+                            <option value="Corte">Corte</option>
+                            <option value="Coloração">Coloração</option>
+                            <option value="Hidratação">Hidratação</option>
+                            <option value="Escova">Escova</option>
+                            <option value="Progressiva">Progressiva</option>
+                            <option value="Penteado">Penteado</option>
+                            <option value="Manicure">Manicure</option>
+                            <option value="Pedicure">Pedicure</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="agendamento-local">Local</label>
+                        <select id="agendamento-local">
+                            <option value="Salão Principal">Salão Principal - Rua das Flores, 123</option>
+                            <option value="Filial 1">Filial 1 - Av. Beleza, 456</option>
+                            <option value="Atendimento em Casa">Atendimento em Casa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="agendamento-pagamento">Forma de Pagamento</label>
+                        <select id="agendamento-pagamento">
+                            <option value="">Selecione a forma de pagamento</option>
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Cartão de Crédito">Cartão de Crédito</option>
+                            <option value="Cartão de Débito">Cartão de Débito</option>
+                            <option value="PIX">PIX</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn" id="btn-voltar-perfil">
+                            <i class="fas fa-arrow-left"></i> Voltar
+                        </button>
+                        <button class="btn" id="btn-confirmar-agendamento">
+                            <i class="fas fa-calendar-check"></i> Confirmar Agendamento
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="perfil-section" style="display: none;">
+                <h2><i class="fas fa-user-circle"></i> Meu Perfil</h2>
+                <div class="form-container">
+                    <p><strong>Nome:</strong> <span id="perfil-nome"></span></p>
+                    <p><strong>CPF:</strong> <span id="perfil-cpf"></span></p>
+                    <p><strong>Telefone:</strong> <span id="perfil-telefone"></span></p>
+                    <p><strong>E-mail:</strong> <span id="perfil-email"></span></p>
+                    
+                    <div style="margin-top: 30px;">
+                        <h3>Meus Agendamentos</h3>
+                        <table class="agendamentos-table" id="tabela-agendamentos-cliente">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Horário</th>
+                                    <th>Serviço</th>
+                                    <th>Local</th>
+                                    <th>Pagamento</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Agendamentos serão inseridos aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn" id="btn-novo-agendamento">
+                            <i class="fas fa-plus-circle"></i> Novo Agendamento
+                        </button>
+                        <button class="btn" id="btn-sair">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Área da Cabelereira -->
+        <div id="area-cabelereira" class="content-area">
+            <div id="login-cabelereira-section">
+                <h2><i class="fas fa-scissors"></i> Login da Cabelereira</h2>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="login-cabelereira-email">E-mail</label>
+                        <input type="email" id="login-cabelereira-email" placeholder="cabelereira@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-cabelereira-senha">Senha</label>
+                        <input type="password" id="login-cabelereira-senha" placeholder="Digite sua senha">
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn" id="btn-login-cabelereira">
+                            <i class="fas fa-sign-in-alt"></i> Entrar como Cabelereira
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="painel-cabelereira-section" style="display: none;">
+                <h2><i class="fas fa-tasks"></i> Painel de Agendamentos</h2>
+                
+                <div style="margin-bottom: 30px;">
+                    <h3>Agendamentos do Dia</h3>
+                    <table class="agendamentos-table" id="tabela-agendamentos-hoje">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Horário</th>
+                                <th>Serviço</th>
+                                <th>Telefone</th>
+                                <th>Local</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Agendamentos do dia serão inseridos aqui via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div>
+                    <h3>Todos os Agendamentos</h3>
+                    <table class="agendamentos-table" id="tabela-agendamentos-todos">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Data</th>
+                                <th>Horário</th>
+                                <th>Serviço</th>
+                                <th>Telefone</th>
+                                <th>Pagamento</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Todos os agendamentos serão inseridos aqui via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="form-actions" style="margin-top: 30px;">
+                    <button class="btn" id="btn-sair-cabelereira">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Agenda das Girls &copy; 2023 - Todos os direitos reservados</p>
+            <p>Agendamento online para serviços de beleza</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dados simulados (em um sistema real, viriam de um banco de dados)
+        const usuarios = [
+            { id: 1, nome: "Maria Silva", cpf: "123.456.789-00", telefone: "(11) 99999-1111", email: "maria@email.com", senha: "123456" }
+        ];
+        
+        const agendamentos = [
+            { id: 1, clienteId: 1, clienteNome: "Maria Silva", data: "2023-12-15", horario: "10:00", servico: "Corte", local: "Salão Principal", pagamento: "Cartão de Crédito", telefone: "(11) 99999-1111", status: "pendente" },
+            { id: 2, clienteId: 1, clienteNome: "Maria Silva", data: "2023-12-10", horario: "14:00", servico: "Coloração", local: "Filial 1", pagamento: "PIX", telefone: "(11) 99999-1111", status: "confirmado" },
+            { id: 3, clienteId: 1, clienteNome: "Maria Silva", data: "2023-12-20", horario: "09:00", servico: "Hidratação", local: "Salão Principal", pagamento: "Dinheiro", telefone: "(11) 99999-1111", status: "pendente" }
+        ];
+        
+        const cabelereira = { email: "cabelereira@agenda.com", senha: "cabelereira123" };
+        
+        // Estado da aplicação
+        let usuarioLogado = null;
+        let proximoIdAgendamento = 4;
+        
+        // Elementos do DOM
+        const areaCliente = document.getElementById('area-cliente');
+        const areaCabelereira = document.getElementById('area-cabelereira');
+        const btnCliente = document.getElementById('btn-cliente');
+        const btnCabelereira = document.getElementById('btn-cabelereira');
+        const systemMessage = document.getElementById('system-message');
+        
+        // Funções de utilitário
+        function mostrarMensagem(texto, tipo) {
+            systemMessage.textContent = texto;
+            systemMessage.className = `message ${tipo}`;
+            
+            setTimeout(() => {
+                systemMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        function alternarArea(area) {
+            if (area === 'cliente') {
+                areaCliente.classList.add('active');
+                areaCabelereira.classList.remove('active');
+                btnCliente.classList.add('active');
+                btnCabelereira.classList.remove('active');
+            } else {
+                areaCliente.classList.remove('active');
+                areaCabelereira.classList.add('active');
+                btnCliente.classList.remove('active');
+                btnCabelereira.classList.add('active');
+            }
+        }
+        
+        function alternarSecaoCliente(secao) {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('cadastro-section').style.display = 'none';
+            document.getElementById('agendamento-section').style.display = 'none';
+            document.getElementById('perfil-section').style.display = 'none';
+            
+            document.getElementById(secao).style.display = 'block';
+        }
+        
+        function alternarSecaoCabelereira(secao) {
+            document.getElementById('login-cabelereira-section').style.display = 'none';
+            document.getElementById('painel-cabelereira-section').style.display = 'none';
+            
+            document.getElementById(secao).style.display = 'block';
+        }
+        
+        // Funções para Cliente
+        function fazerLoginCliente() {
+            const email = document.getElementById('login-email').value;
+            const senha = document.getElementById('login-senha').value;
+            
+            if (!email || !senha) {
+                mostrarMensagem('Preencha todos os campos para fazer login', 'error');
+                return;
+            }
+            
+            const usuario = usuarios.find(u => u.email === email && u.senha === senha);
+            
+            if (usuario) {
+                usuarioLogado = usuario;
+                mostrarMensagem(`Bem-vinda, ${usuario.nome}!`, 'success');
+                atualizarPerfilCliente();
+                alternarSecaoCliente('perfil-section');
+            } else {
+                mostrarMensagem('E-mail ou senha incorretos', 'error');
+            }
+        }
+        
+        function fazerCadastroCliente() {
+            const nome = document.getElementById('cadastro-nome').value;
+            const cpf = document.getElementById('cadastro-cpf').value;
+            const telefone = document.getElementById('cadastro-telefone').value;
+            const email = document.getElementById('cadastro-email').value;
+            const senha = document.getElementById('cadastro-senha').value;
+            
+            if (!nome || !cpf || !telefone || !email || !senha) {
+                mostrarMensagem('Preencha todos os campos para se cadastrar', 'error');
+                return;
+            }
+            
+            // Verificar se email já existe
+            if (usuarios.find(u => u.email === email)) {
+                mostrarMensagem('Este e-mail já está cadastrado', 'error');
+                return;
+            }
+            
+            const novoUsuario = {
+                id: usuarios.length + 1,
+                nome,
+                cpf,
+                telefone,
+                email,
+                senha
+            };
+            
+            usuarios.push(novoUsuario);
+            usuarioLogado = novoUsuario;
+            
+            mostrarMensagem('Cadastro realizado com sucesso!', 'success');
+            atualizarPerfilCliente();
+            alternarSecaoCliente('perfil-section');
+        }
+        
+        function fazerAgendamento() {
+            if (!usuarioLogado) {
+                mostrarMensagem('Você precisa estar logada para fazer um agendamento', 'error');
+                return;
+            }
+            
+            const data = document.getElementById('agendamento-data').value;
+            const horario = document.getElementById('agendamento-horario').value;
+            const servico = document.getElementById('agendamento-servico').value;
+            const local = document.getElementById('agendamento-local').value;
+            const pagamento = document.getElementById('agendamento-pagamento').value;
+            
+            if (!data || !horario || !servico || !local || !pagamento) {
+                mostrarMensagem('Preencha todos os campos para fazer o agendamento', 'error');
+                return;
+            }
+            
+            const novoAgendamento = {
+                id: proximoIdAgendamento++,
+                clienteId: usuarioLogado.id,
+                clienteNome: usuarioLogado.nome,
+                data,
+                horario,
+                servico,
+                local,
+                pagamento,
+                telefone: usuarioLogado.telefone,
+                status: 'pendente'
+            };
+            
+            agendamentos.push(novoAgendamento);
+            mostrarMensagem('Agendamento realizado com sucesso! Aguarde confirmação.', 'success');
+            atualizarPerfilCliente();
+            alternarSecaoCliente('perfil-section');
+        }
+        
+        function atualizarPerfilCliente() {
+            if (!usuarioLogado) return;
+            
+            document.getElementById('perfil-nome').textContent = usuarioLogado.nome;
+            document.getElementById('perfil-cpf').textContent = usuarioLogado.cpf;
+            document.getElementById('perfil-telefone').textContent = usuarioLogado.telefone;
+            document.getElementById('perfil-email').textContent = usuarioLogado.email;
+            
+            // Atualizar tabela de agendamentos do cliente
+            const tabela = document.getElementById('tabela-agendamentos-cliente');
+            const tbody = tabela.querySelector('tbody');
+            tbody.innerHTML = '';
+            
+            const agendamentosCliente = agendamentos.filter(a => a.clienteId === usuarioLogado.id);
+            
+            agendamentosCliente.forEach(agendamento => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${new Date(agendamento.data).toLocaleDateString('pt-BR')}</td>
+                    <td>${agendamento.horario}</td>
+                    <td>${agendamento.servico}</td>
+                    <td>${agendamento.local}</td>
+                    <td>${agendamento.pagamento}</td>
+                    <td><span class="status ${agendamento.status}">${agendamento.status === 'pendente' ? 'Pendente' : 'Confirmado'}</span></td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Funções para Cabelereira
+        function fazerLoginCabelereira() {
+            const email = document.getElementById('login-cabelereira-email').value;
+            const senha = document.getElementById('login-cabelereira-senha').value;
+            
+            if (!email || !senha) {
+                mostrarMensagem('Preencha todos os campos para fazer login', 'error');
+                return;
+            }
+            
+            if (email === cabelereira.email && senha === cabelereira.senha) {
+                mostrarMensagem('Bem-vinda ao painel da cabelereira!', 'success');
+                atualizarPainelCabelereira();
+                alternarSecaoCabelereira('painel-cabelereira-section');
+            } else {
+                mostrarMensagem('E-mail ou senha incorretos', 'error');
+            }
+        }
+        
+        function atualizarPainelCabelereira() {
+            // Atualizar tabela de agendamentos do dia
+            const hoje = new Date().toISOString().split('T')[0];
+            const agendamentosHoje = agendamentos.filter(a => a.data === hoje);
+            
+            const tabelaHoje = document.getElementById('tabela-agendamentos-hoje');
+            const tbodyHoje = tabelaHoje.querySelector('tbody');
+            tbodyHoje.innerHTML = '';
+            
+            agendamentosHoje.forEach(agendamento => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${agendamento.clienteNome}</td>
+                    <td>${agendamento.horario}</td>
+                    <td>${agendamento.servico}</td>
+                    <td>${agendamento.telefone}</td>
+                    <td>${agendamento.local}</td>
+                    <td><span class="status ${agendamento.status}">${agendamento.status === 'pendente' ? 'Pendente' : 'Confirmado'}</span></td>
+                    <td>
+                        ${agendamento.status === 'pendente' ? 
+                            `<button class="action-btn confirm-btn" onclick="confirmarAgendamento(${agendamento.id})">
+                                <i class="fas fa-check"></i> Confirmar
+                            </button>` : 
+                            'Confirmado'}
+                    </td>
+                `;
+                
+                tbodyHoje.appendChild(row);
+            });
+            
+            // Atualizar tabela de todos os agendamentos
+            const tabelaTodos = document.getElementById('tabela-agendamentos-todos');
+            const tbodyTodos = tabelaTodos.querySelector('tbody');
+            tbodyTodos.innerHTML = '';
+            
+            // Ordenar por data (mais recente primeiro)
+            const agendamentosOrdenados = [...agendamentos].sort((a, b) => new Date(b.data) - new Date(a.data));
+            
+            agendamentosOrdenados.forEach(agendamento => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${agendamento.clienteNome}</td>
+                    <td>${new Date(agendamento.data).toLocaleDateString('pt-BR')}</td>
+                    <td>${agendamento.horario}</td>
+                    <td>${agendamento.servico}</td>
+                    <td>${agendamento.telefone}</td>
+                    <td>${agendamento.pagamento}</td>
+                    <td><span class="status ${agendamento.status}">${agendamento.status === 'pendente' ? 'Pendente' : 'Confirmado'}</span></td>
+                    <td>
+                        ${agendamento.status === 'pendente' ? 
+                            `<button class="action-btn confirm-btn" onclick="confirmarAgendamento(${agendamento.id})">
+                                <i class="fas fa-check"></i> Confirmar
+                            </button>` : 
+                            'Confirmado'}
+                    </td>
+                `;
+                
+                tbodyTodos.appendChild(row);
+            });
+        }
+        
+        function confirmarAgendamento(id) {
+            const agendamento = agendamentos.find(a => a.id === id);
+            
+            if (agendamento) {
+                agendamento.status = 'confirmado';
+                mostrarMensagem(`Agendamento confirmado para ${agendamento.clienteNome}`, 'success');
+                atualizarPainelCabelereira();
+                
+                // Se o cliente estiver logado, atualizar sua tela também
+                if (usuarioLogado && usuarioLogado.id === agendamento.clienteId) {
+                    atualizarPerfilCliente();
+                }
+            }
+        }
+        
+        // Configurar data mínima para agendamento (amanhã)
+        const dataInput = document.getElementById('agendamento-data');
+        const amanha = new Date();
+        amanha.setDate(amanha.getDate() + 1);
+        const dataMinima = amanha.toISOString().split('T')[0];
+        dataInput.min = dataMinima;
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navegação entre áreas
+            btnCliente.addEventListener('click', () => alternarArea('cliente'));
+            btnCabelereira.addEventListener('click', () => alternarArea('cabelereira'));
+            
+            // Cliente: Login e Cadastro
+            document.getElementById('btn-login').addEventListener('click', fazerLoginCliente);
+            document.getElementById('btn-cadastrar-view').addEventListener('click', () => alternarSecaoCliente('cadastro-section'));
+            document.getElementById('btn-voltar-login').addEventListener('click', () => alternarSecaoCliente('login-section'));
+            document.getElementById('btn-confirmar-cadastro').addEventListener('click', fazerCadastroCliente);
+            
+            // Cliente: Agendamento e Perfil
+            document.getElementById('btn-novo-agendamento').addEventListener('click', () => alternarSecaoCliente('agendamento-section'));
+            document.getElementById('btn-voltar-perfil').addEventListener('click', () => alternarSecaoCliente('perfil-section'));
+            document.getElementById('btn-confirmar-agendamento').addEventListener('click', fazerAgendamento);
+            document.getElementById('btn-sair').addEventListener('click', () => {
+                usuarioLogado = null;
+                alternarSecaoCliente('login-section');
+            });
+            
+            // C
