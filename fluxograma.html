@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Fluxograma - Cliente e Barbeiro</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ 
+      startOnLoad: true,
+      theme: "dark"
+    });
+  </script>
+
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Fluxograma – Plataforma de Agendamento</h2>
+
+<div class="mermaid">
+flowchart LR
+
+%% ================= CLIENTE =================
+subgraph CLIENTE
+    direction TB
+    C1([INÍCIO])
+    C2[Login do cliente]
+    C3[Acessar agenda]
+    C4[Escolha data e horário]
+    C5{Condiz com a agenda da barbearia?}
+    C6[Horário agendado com sucesso]
+    C7[Comparecer ao salão]
+    C8[Atendimento]
+    C9([Fim])
+
+    C1 --> C2 --> C3 --> C4 --> C5
+    C5 -- Sim --> C6 --> C7 --> C8 --> C9
+end
+
+%% ================= BARBEIRO =================
+subgraph BARBEIRO
+    direction TB
+    B1([INÍCIO])
+    B2[Login do barbeiro]
+    B3[Acessar agenda]
+    B4[Visualizar agendamentos do dia]
+    B5[Selecionar cliente]
+    B6[Confirmar presença do cliente]
+    B7{Cliente compareceu?}
+    B8[Cancelar agendamento]
+
+    B1 --> B2 --> B3 --> B4 --> B5 --> B6 --> B7
+    B7 -- Não --> B8 --> C9
+end
+
+%% ================= CONEXÕES ENTRE OS FLUXOS =================
+C5 -- Não --> B4
+B7 -- Sim --> C8
+
+</div>
+
+</body>
+</html>
