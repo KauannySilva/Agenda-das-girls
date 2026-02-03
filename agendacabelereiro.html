@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>agenda do cabelereiro</title>
+</head>
+<body>
+    <h1>agenda do cabelereiro</h1>
+    <form action="processa_agendamento_cabelereiro.php" method="POST">
+        <label for="nome">Nome do Cabelereiro:</label><br>
+        <input type="text" id="nome" name="nome" required><br><br>
+
+        <label for="data">Data do Agendamento:</label><br>
+        <input type="date" id="data" name="data" required><br><br>
+
+        <label for="hora">Hora do Agendamento:</label><br>
+        <input type="time" id="hora" name="hora" required><br><br>
+
+        <label for="servico">Serviço:</label><br>
+        <select id="servico" name="servico" required>
+            <option value="corte">Corte de Cabelo</option>
+            <option value="pintura">Pintura</option>
+            <option value="manicure">Manicure</option>
+            <option value="pedicure">Pedicure</option>
+        </select><br><br>
+
+        <input type="submit" value="Agendar">
+</html>
